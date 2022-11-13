@@ -1,25 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import {createBrowserRouter} from 'react-router-dom'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+import Home from './pages/Home'
+import Login from './pages/Login'
+import Admin from './pages/Admin'
+import Error from './pages/Error'
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Home/>
+  },
+  {
+    path: '/login',
+    element: <Login/>
+  },
+  {
+    path: '/admin',
+    element: <Admin/>
+  },
+  {
+    path:'*',
+    element: <Error/>
+  }
+])
+
+export{ router };
+
+// export default function App(){
+//   return(
+//     <div>
+//       <h1>RAIZTECH - PROGRAMMING</h1>
+//       {/* <Student name="Ensei Tankado" curse="Developer" />
+//       <Student name="Phi Faith" curse="Programming" /> */}
+//     </div>
+//   )
+// }
+
+/*function Student({name, curse}){
+  return(
+    <div>
+      <h2>Wellcome {name} to RaizTech</h2>
+      <h3>Your Curse is {curse}</h3>
     </div>
-  );
-}
-
-export default App;
+  )
+}*/
