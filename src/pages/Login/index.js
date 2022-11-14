@@ -7,7 +7,9 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 
 import { useNavigate } from "react-router-dom";
 
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from "react-toastify";
+
+import { Input } from "../../components/Input";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -32,11 +34,11 @@ export default function Login() {
       .then(() => {
         //console.log("User Sign In Successfully!");
         toast.success("User Sign In Successfully!");
-        navigate("/admin", {replace: true});
+        navigate("/admin", { replace: true });
       })
       .catch(() => {
         //console.log("User SignIn Error, please try again!");
-        toast.error("User Sign In Error, Please Try Again!")
+        toast.error("User Sign In Error, Please Try Again!");
       });
   }
 
@@ -44,7 +46,22 @@ export default function Login() {
     <div className="login-container">
       <Logo />
       <form className="login-form" onSubmit={handleSignIn}>
-        <input
+        <Input
+          type="email"
+          placeholder="Insert Your E-mail"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <Input
+          type="password"
+          placeholder="*********************"
+          autoComplete="on"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        {/* <input
           type="email"
           placeholder="Insert Your E-mail"
           value={email}
@@ -56,7 +73,7 @@ export default function Login() {
           autoComplete="on"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-        />
+        /> */}
         <button type="submit">SIGN IN</button>
       </form>
     </div>
