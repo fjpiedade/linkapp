@@ -6,6 +6,10 @@
     padding: 0 6px 100px 6px;
 }
 
+.title{
+    color: #fff;
+}
+
 .form-admin{
     display: flex;
     flex-direction: column;

@@ -10,7 +10,7 @@ export default function Private({ children }) {
 
   useEffect(() => {
     async function checkLogin() {
-      const unsub = onAuthStateChanged(auth, (user) => {
+      onAuthStateChanged(auth, (user) => {
         console.log(user);
 
         if (user) {

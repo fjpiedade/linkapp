@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./index.css";
 import { Header } from "../../components/Header";
 import { Logo } from "../../components/Logo";
@@ -14,6 +14,7 @@ import {
   onSnapshot,
   query,
   orderBy,
+  doc,
   deleteDoc,
 } from "firebase/firestore";
 
@@ -24,6 +25,28 @@ export default function Admin() {
   const [urlInput, setUrlInput] = useState("");
   const [backgroundColorInput, setBackgroundColorInput] = useState("#f1f1f1");
   const [textColorInput, setTextColorInput] = useState("#121212");
+
+  const [links, setLinks] = useState([]);
+
+  useEffect(() => {
+    const linksRef = collection(db, "linksname");
+    const queryRef = query(linksRef, orderBy("created", "asc"));
+    onSnapshot(queryRef, (snapshot) => {
+      let list = [];
+      snapshot.forEach((doc) => {
+        list.push({
+          id: doc.id,
+          name: doc.data().name,
+          url: doc.data().url,
+          bgcolor: doc.data().bgcolor,
+          textcolor: doc.data().textcolor,
+          created: doc.data().created,
+        });
+      });
+
+      setLinks(list);
+    });
+  }, []);
 
   async function handleRegister(e) {
     e.preventDefault();
@@ -49,6 +72,11 @@ export default function Admin() {
             error
         );
       });
+  }
+
+  async function handleDeleteLink(id){
+    const docRef = doc(db, "linksname", id);
+    await deleteDoc(docRef);
   }
 
   return (
@@ -115,17 +143,21 @@ export default function Admin() {
 
       <h2 className="title">My Links</h2>
 
-      <article
-        className="list animate-pop"
-        style={{ backgroundColor: "#000", color: "#fff" }}
-      >
-        <p>Group exclusive of Telegram</p>
-        <div>
-          <button className="btn-delete">
-            <FiTrash2 size={18} color="#fff" />
-          </button>
-        </div>
-      </article>
+      {links.map((item, index) => (
+        <article
+          key={index}
+          className="list animate-pop"
+          style={{ backgroundColor: item.bgcolor, color: item.textcolor }}
+        >
+          <p>{item.name}</p>
+          <div>
+            <button className="btn-delete" onClick={() => handleDeleteLink(item.id)}>
+              <FiTrash2 size={18} color="#fff" />
+            </button>
+          </div>
+        </article>
+      ))}
+      
     </div>
   );
 }
